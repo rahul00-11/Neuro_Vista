@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#0d1117"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <title>NeuroVista AI</title>
+  <link rel="stylesheet" href="static/css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ────────────────────────────────────────────────────────────────────────── -->
+<!-- WELCOME SCREEN — shown on first load, auto voice greeting                  -->
+<!-- ────────────────────────────────────────────────────────────────────────── -->
+<div id="welcome-screen">
+  <div class="welcome-logo">🧠</div>
+
+  <div>
+    <div class="welcome-title">Neuro<span>Vista</span> AI</div>
+  </div>
+
+  <div class="welcome-clinic">
+    <strong>Little Angels Superspecialty Eye Clinic</strong>
+    Dr. Trupti Kadam Lambat<br/>
+    Pediatric · Neuro · Squint Ophthalmologist<br/>
+    Nagpur, Maharashtra
+  </div>
+
+  <div class="welcome-wave">
+    🙏 Namaste! I am your AI receptionist.<br/>
+    I will guide you through registration step by step.<br/>
+    <em>This clinic is for children aged 0–18 years.</em>
+  </div>
+
+  <div class="lang-select-title">Select language to begin / भाषा चुनें</div>
+
+  <div class="lang-pills">
+    <button class="lang-pill" data-lang="en">🇬🇧 English</button>
+    <button class="lang-pill" data-lang="hi">🇮🇳 हिंदी</button>
+    <button class="lang-pill" data-lang="hinglish">🔀 Hinglish</button>
+  </div>
+</div>
+
+
+<!-- ────────────────────────────────────────────────────────────────────────── -->
+<!-- MAIN APP                                                                    -->
+<!-- ────────────────────────────────────────────────────────────────────────── -->
+
+<!-- Header -->
+<header>
+  <div class="h-logo">🧠</div>
+  <div class="h-text">
+    <h1>Neuro<span>Vista</span> AI</h1>
+    <p>Little Angels Eye Clinic · Dr. Trupti Kadam Lambat</p>
+  </div>
+  <div id="backend-dot" title="Backend status"></div>
+</header>
+
+<!-- Module progress bar -->
+<div id="module-bar"><!-- built by JS --></div>
+
+<!-- Age warning (hidden by default) -->
+<div id="age-warning"></div>
+
+<!-- MOBILE + DESKTOP layout -->
+<div id="app-layout">
+
+  <!-- Desktop Sidebar (hidden on mobile) -->
+  <div id="sidebar">
+
+    <div class="s-card">
+      <h3>👤 Patient Info</h3>
+      <div id="patient-info" style="color:var(--muted);font-size:12px">
+        Registration in progress...
+      </div>
+    </div>
+
+    <div class="s-card">
+      <h3>🔊 Voice</h3>
+      <div class="voice-row">
+        <span>Auto-speak replies</span>
+        <label class="toggle">
+          <input type="checkbox" id="voice-toggle"/>
+          <span class="t-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="s-card" id="upload-panel" style="display:none">
+      <h3>📎 Documents</h3>
+      <div class="upload-zone">
+        <label for="file-gen">Patient docs (PDF/JPG/DOCX)<br/><small>Previous reports, prescriptions</small></label>
+        <input type="file" id="file-gen" accept=".pdf,.jpg,.jpeg,.png,.docx"/>
+      </div>
+      <button class="btn-up" id="btn-gen">Upload</button>
+      <div class="up-status" id="status-gen"></div>
+
+      <div style="height:12px"></div>
+
+      <div class="upload-zone doctor">
+        <label for="file-doc">🩺 Clinical Sheet<br/><small>Doctor only — PDF/DOCX</small></label>
+        <input type="file" id="file-doc" accept=".pdf,.docx"/>
+      </div>
+      <button class="btn-up doctor" id="btn-doc">Upload Sheet</button>
+      <div class="up-status" id="status-doc"></div>
+
+      <div style="height:12px"></div>
+
+      <div class="upload-zone secure">
+        <label for="file-id">🪪 ID Proof<br/><small>Aadhaar / any govt ID — for verification only, PDF/JPG</small></label>
+        <input type="file" id="file-id" accept=".pdf,.jpg,.jpeg,.png"/>
+      </div>
+      <button class="btn-up secure" id="btn-id">Upload ID</button>
+      <div class="up-status" id="status-id"></div>
+    </div>
+
+    <div class="s-card">
+      <h3>🔐 Privacy</h3>
+      <div class="privacy-list">
+        🔒 Data stored securely<br/>
+        🔑 AI key never in browser<br/>
+        👶 Pediatric only (0–18)<br/>
+        🩺 Clinical data: Doctor only<br/>
+        🪪 ID proof: verification only, restricted access
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Chat column -->
+  <div id="chat-column">
+
+    <!-- Messages -->
+    <div id="chat-box">
+      <div class="message assistant">
+        <div class="bubble">🙏 Welcome to Little Angels Eye Clinic. Please select your language on the welcome screen.</div>
+        <span class="msg-time">Now</span>
+      </div>
+    </div>
+
+    <!-- Mic status -->
+    <div id="mic-status"></div>
+
+    <!-- Input -->
+    <div class="input-wrap">
+      <div class="input-row">
+        <textarea id="user-input" placeholder="Type or tap 🎙️ to speak..." rows="1" autocomplete="off" autocorrect="on" autocapitalize="sentences"></textarea>
+        <button class="icon-btn" id="voice-btn" title="Voice">🎙️</button>
+        <button class="icon-btn" id="send-btn" title="Send">➤</button>
+      </div>
+    </div>
+
+  </div><!-- /chat-column -->
+
+</div><!-- /app-layout -->
+
+
+<!-- Mobile: Info FAB + Bottom Sheet -->
+<button id="info-fab" title="Patient info & uploads">ℹ️</button>
+<div id="sheet-overlay"></div>
+
+<div id="info-sheet">
+  <div class="sheet-handle"></div>
+
+  <div class="sheet-section" id="patient-card-section">
+    <h3>👤 Patient Info</h3>
+    <div id="patient-info-mobile" style="color:var(--muted);font-size:12px">Registration in progress...</div>
+  </div>
+
+  <div class="sheet-section">
+    <h3>🔊 Voice Settings</h3>
+    <div class="voice-row">
+      <span>Auto-speak AI replies</span>
+      <label class="toggle">
+        <input type="checkbox" id="voice-toggle-mobile"/>
+        <span class="t-slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="sheet-section" id="upload-panel-mobile" style="display:none">
+    <h3>📎 Upload Documents</h3>
+    <div class="upload-zone">
+      <label for="file-gen-m">Patient docs (PDF/JPG/DOCX)</label>
+      <input type="file" id="file-gen-m" accept=".pdf,.jpg,.jpeg,.png,.docx"/>
+    </div>
+    <button class="btn-up" id="btn-gen-m">Upload</button>
+    <div class="up-status" id="status-gen-m"></div>
+    <div style="height:10px"></div>
+    <div class="upload-zone doctor">
+      <label for="file-doc-m">🩺 Clinical Sheet (Doctor only)</label>
+      <input type="file" id="file-doc-m" accept=".pdf,.docx"/>
+    </div>
+    <button class="btn-up doctor" id="btn-doc-m">Upload Sheet</button>
+    <div class="up-status" id="status-doc-m"></div>
+    <div style="height:10px"></div>
+    <div class="upload-zone secure">
+      <label for="file-id-m">🪪 ID Proof (Aadhaar / any govt ID)</label>
+      <input type="file" id="file-id-m" accept=".pdf,.jpg,.jpeg,.png"/>
+    </div>
+    <button class="btn-up secure" id="btn-id-m">Upload ID</button>
+    <div class="up-status" id="status-id-m"></div>
+  </div>
+
+  <div class="sheet-section">
+    <h3>🔐 Privacy</h3>
+    <div class="privacy-list">
+      🔒 Data stored securely on server<br/>
+      🔑 API key never sent to browser<br/>
+      👶 Children only (0–18 years)<br/>
+      🩺 Clinical data: Doctor access only<br/>
+      🪪 ID proof: verification only, restricted access
+    </div>
+  </div>
+</div>
+
+<script type="module" src="static/js/app.js"></script>
+
+<!-- Sync mobile voice toggle with desktop -->
+<script>
+  document.getElementById("voice-toggle-mobile")?.addEventListener("change", e => {
+    document.getElementById("voice-toggle").checked = e.target.checked;
+    document.getElementById("voice-toggle").dispatchEvent(new Event("change"));
+  });
+</script>
+
+</body>
+</html>

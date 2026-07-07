@@ -1,0 +1,26 @@
+# NeuroVista AI — Render Deployment
+# Single service: FastAPI serves both backend API + frontend static files
+
+services:
+  - type: web
+    name: neurovista-ai
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    # Persistent disk for SQLite DB + uploaded files
+    disk:
+      name: neurovista-data
+      mountPath: /opt/render/project/src
+      sizeGB: 1
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false           # ← Add in Render dashboard manually
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DB_NAME
+        value: /opt/render/project/src/neurovista.db
+      - key: UPLOAD_FOLDER
+        value: /opt/render/project/src/uploads
+      - key: PORT
+        value: "10000"
