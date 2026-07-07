@@ -29,10 +29,18 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
-  height: 100dvh;          /* dynamic viewport for mobile browsers */
+
+  margin: 0;
+  padding: 0;
+
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* ── Welcome Screen ────────────────────────────────────────────────────────── */
@@ -449,6 +457,37 @@ header {
   z-index: 199;
 }
 #sheet-overlay.open { display: block; }
+/* ---------- Mobile Layout Fix ---------- */
+
+#app-layout{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+}
+
+#chat-column{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+}
+
+#chat-box{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    padding:14px;
+}
+
+.input-wrap{
+    position:sticky;
+    bottom:0;
+    background:var(--surface);
+    z-index:50;
+}
 
 /* ── Desktop layout — sidebar mode on wide screens ──────────────────────── */
 @media (min-width: 768px) {
@@ -529,3 +568,21 @@ input:checked + .t-slider::before { transform: translateX(16px); }
 }
 
 .privacy-list { font-size: 11px; color: var(--muted); line-height: 2; }
+
+@media (max-width:768px){
+
+html,
+body{
+    height:100%;
+}
+
+#chat-column{
+    height:calc(100vh - 120px);
+    height:calc(100dvh - 120px);
+}
+
+textarea{
+    font-size:16px;
+}
+
+}
